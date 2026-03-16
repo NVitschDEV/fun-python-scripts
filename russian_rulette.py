@@ -8,7 +8,7 @@ def main():
     if hans == correct_number:
         print("correct!")
     else:
-        while '1' == 1:
+        while '1' == '1':
             subprocess.Popen(["notepad.exe"])
 
 main()
