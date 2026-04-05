@@ -38,15 +38,15 @@ def area_of_function_calculator_linear():
 """Area of a function calculator_non_linear"""
 
 
-def area_of_function_calculator_non_linear(a, b, function_str):
+def area_of_function_calculator_non_linear(a, b, function):
     jump = decimal.Decimal(0.1)
-    x = decimal.Decimal(a)
-    b_val = decimal.Decimal(b)
+    a = decimal.Decimal(a)
+    b = decimal.Decimal(b)
     total = 0
-    while x < b_val:
-        y = eval(function_str)  # Evaluate f(x) at each x
-        total += y * jump  # Area = height * width
-        x += jump
+    while a < b:
+        function = eval(function)
+        total += function * jump
+        a += jump
     return total
 
 
@@ -62,13 +62,13 @@ if __name__ == "__main__":
             result = input("Enter your function: ")
             print(all_functions_calculator(result))
         elif inp == "3":
-            function_str = input(
+            function = input(
                 "Enter your function (use 'x' as variable, e.g., 2*x**3): "
             )
             a = input("Enter your starting value: ")
             b = input("Enter your ending value: ")
             print(
-                f"The area under the function is {area_of_function_calculator_non_linear(a, b, function_str)}"
+                f"The area under the function is {area_of_function_calculator_non_linear(a, b, function)}"
             )
         elif inp == "4":
             break
