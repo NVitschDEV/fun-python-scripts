@@ -1,5 +1,7 @@
 # fun python scripts
  :) have fun (don't run on your system)
 
+# SCRIPTS
 
-example game russian rulette
+russian_rulette for windows
+fibonacci number calculator (non recursive)
