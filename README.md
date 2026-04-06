@@ -5,3 +5,4 @@
 
 russian_rulette for windows
 fibonacci number calculator (non recursive)
+function calculations
