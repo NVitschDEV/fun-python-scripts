@@ -3,9 +3,8 @@
 
 # SCRIPTS
 ---
-'''
+
 1. russian_rulette for windows
 2. fibonacci number calculator (non recursive)
 3. function calculations
-'''
-'''kkla'''
+
