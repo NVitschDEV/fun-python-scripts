@@ -28,70 +28,98 @@ def cos(a):
 def ask(name, unit=""):
     while True:
         try:
-            v = D(input(f"{name} [{unit}]: "))
+            v = D(input(f"  {name} [{unit}]: "))
             if v.is_finite():
                 return v
         except (ValueError, ArithmeticError):
             pass
-        print("Invalid number.")
+        print("  Invalid number. Try again.")
+
+
+def heading(title):
+    print("\n" + "=" * 42)
+    print(f"{title:^42}")
+    print("=" * 42)
 
 
 def show(given, formula, substitution, result, unit):
-    print("\nGiven:")
-    for name, value in given.items():
-        print(f"  {name} = {value}")
+    heading("SOLUTION")
 
-    print("\nSolution:")
-    print(formula)
-    print(substitution)
+    print("\nGIVEN")
+    print("-" * 42)
+    for name, value in given.items():
+        print(f"  {name:<8} = {value}")
+
+    print("\nCALCULATION")
+    print("-" * 42)
+    print(f"  {formula}")
+    print(f"  {substitution}")
 
     f = Fraction(result).limit_denominator(10000)
     if abs(D(f.numerator) / D(f.denominator) - result) < D("1e-30"):
-        print(f"= {f}")
+        print(f"  = {f}")
 
-    print(f"= {result:.3g} {unit}")
+    print("\nRESULT")
+    print("-" * 42)
+    print(f"  {result:.3g} {unit}")
+    print("=" * 42)
 
 
 def projectile_1():
-    print("\n1. Time\n2. Impact velocity\n3. Height\n4. Initial velocity")
-    c = input("Choose: ")
+    heading("PROJECTILE MOTION I")
+    print("  1. Calculate time")
+    print("  2. Calculate impact velocity")
+    print("  3. Calculate height")
+    print("  4. Calculate initial velocity")
+
+    c = input("\n  Choose: ").strip()
 
     if c == "1":
         h, v0 = ask("Height", "m"), ask("Initial velocity", "m/s")
         r = (-v0 + (v0**2 + 2*g*h).sqrt()) / g
-        show({"h": h, "v₀": v0, "g": g}, "t = (−v₀ + √(v₀² + 2gh)) / g",
+        show({"h": h, "v₀": v0, "g": g},
+             "t = (−v₀ + √(v₀² + 2gh)) / g",
              f"t = (−{v0} + √({v0}² + 2·{g}·{h})) / {g}", r, "s")
 
     elif c == "2":
         v0, t = ask("Initial velocity", "m/s"), ask("Time", "s")
         r = v0 + g*t
-        show({"v₀": v0, "g": g, "t": t}, "v = v₀ + gt",
-             f"v = {v0} + {g}·{t}", r, "m/s")
+        show({"v₀": v0, "g": g, "t": t},
+             "v = v₀ + gt", f"v = {v0} + {g}·{t}", r, "m/s")
 
     elif c == "3":
         v0, t = ask("Initial velocity", "m/s"), ask("Time", "s")
         r = v0*t + g*t**2/2
-        show({"v₀": v0, "t": t, "g": g}, "h = v₀t + ½gt²",
+        show({"v₀": v0, "t": t, "g": g},
+             "h = v₀t + ½gt²",
              f"h = {v0}·{t} + ½·{g}·{t}²", r, "m")
 
     elif c == "4":
         v, t = ask("Final velocity", "m/s"), ask("Time", "s")
         r = v - g*t
-        show({"v": v, "g": g, "t": t}, "v₀ = v − gt",
-             f"v₀ = {v} − {g}·{t}", r, "m/s")
+        show({"v": v, "g": g, "t": t},
+             "v₀ = v − gt", f"v₀ = {v} − {g}·{t}", r, "m/s")
+
     else:
-        print("Invalid choice.")
+        print("\n  Invalid choice.")
 
 
 def projectile_2():
-    options = [
-        "Flight time", "Horizontal velocity", "Horizontal distance",
-        "Vertical velocity", "Impact speed", "Height"
-    ]
-    for i, name in enumerate(options, 1):
-        print(f"{i}. {name}")
+    heading("PROJECTILE MOTION II")
 
-    c = input("Choose: ")
+    options = [
+        "Flight time",
+        "Horizontal velocity",
+        "Horizontal distance",
+        "Vertical velocity",
+        "Impact speed",
+        "Height"
+    ]
+
+    for i, name in enumerate(options, 1):
+        print(f"  {i}. Calculate {name}")
+
+    c = input("\n  Choose: ").strip()
 
     if c == "1":
         h = ask("Height", "m")
@@ -124,21 +152,28 @@ def projectile_2():
             "h = ½gt²", f"h = ½·{g}·{t}²", "m"
 
     else:
-        print("Invalid choice.")
+        print("\n  Invalid choice.")
         return
 
     show(given, formula, sub, r, unit)
 
 
 def friction():
-    options = [
-        "Normal force", "Static friction", "Dynamic friction",
-        "Static friction coefficient", "Dynamic friction coefficient", "Mass"
-    ]
-    for i, name in enumerate(options, 1):
-        print(f"{i}. Calculate {name}")
+    heading("FRICTION")
 
-    c = input("Choose: ")
+    options = [
+        "Normal force",
+        "Static friction",
+        "Dynamic friction",
+        "Static friction coefficient",
+        "Dynamic friction coefficient",
+        "Mass"
+    ]
+
+    for i, name in enumerate(options, 1):
+        print(f"  {i}. Calculate {name}")
+
+    c = input("\n  Choose: ").strip()
 
     if c == "1":
         m = ask("Mass", "kg")
@@ -167,33 +202,43 @@ def friction():
             "m = Fₙ / g", f"m = {fn} / {g}", "kg"
 
     else:
-        print("Invalid choice.")
+        print("\n  Invalid choice.")
         return
 
     show(given, formula, sub, r, unit)
 
 
 def vectors():
-    print("\n1. Resultant force\n2. Resultant direction")
-    print("3. Sum of horizontal forces\n4. Sum of vertical forces")
-    print("5. Check equilibrium")
+    heading("FORCE VECTORS")
 
-    c = input("Choose: ")
+    print("  1. Calculate resultant force")
+    print("  2. Calculate resultant direction")
+    print("  3. Sum of horizontal forces")
+    print("  4. Sum of vertical forces")
+    print("  5. Check equilibrium")
+
+    c = input("\n  Choose: ").strip()
+
     if c not in ("1", "2", "3", "4", "5"):
-        print("Invalid choice.")
+        print("\n  Invalid choice.")
         return
 
     count = int(ask("Number of forces"))
+    if count < 1:
+        print("\n  Enter at least one force.")
+        return
+
     given = {}
     fx = fy = D(0)
 
     for i in range(1, count + 1):
-        f, a = ask(f"Force F{i}", "N"), ask(f"Angle α{i}", "°")
+        f = ask(f"Force F{i}", "N")
+        a = ask(f"Angle α{i}", "°")
         fx += f*cos(a)
         fy += f*sin(a)
         given[f"F{i}"], given[f"α{i}"] = f, a
 
-    if c == "1" or c == "5":
+    if c in ("1", "5"):
         r = (fx**2 + fy**2).sqrt()
         formula = "Fᵣₑₛ = √((ΣFₓ)² + (ΣFᵧ)²)"
         sub = f"Fᵣₑₛ = √(({fx})² + ({fy})²)"
@@ -201,41 +246,58 @@ def vectors():
 
     elif c == "2":
         r = D(str(math.degrees(math.atan2(float(fy), float(fx)))))
-        formula, sub, unit = "α = atan2(ΣFᵧ, ΣFₓ)", f"α = atan2({fy}, {fx})", "°"
+        formula = "α = atan2(ΣFᵧ, ΣFₓ)"
+        sub = f"α = atan2({fy}, {fx})"
+        unit = "°"
 
     elif c == "3":
         r = fx
-        formula, sub, unit = "ΣFₓ = Σ(F · cos α)", f"ΣFₓ = {fx}", "N"
+        formula = "ΣFₓ = Σ(F · cos α)"
+        sub = f"ΣFₓ = {fx}"
+        unit = "N"
 
     else:
         r = fy
-        formula, sub, unit = "ΣFᵧ = Σ(F · sin α)", f"ΣFᵧ = {fy}", "N"
+        formula = "ΣFᵧ = Σ(F · sin α)"
+        sub = f"ΣFᵧ = {fy}"
+        unit = "N"
 
     if c == "5":
-        print("\nGiven:")
+        heading("EQUILIBRIUM CHECK")
+        print("\nGIVEN")
+        print("-" * 42)
         for name, value in given.items():
-            print(f"  {name} = {value}")
-        print("\nSolution:")
-        print(formula)
-        print(sub)
-        print(f"= {r:.3g} {unit}")
-        print("The forces are in equilibrium." if r < D("0.001")
-              else "The forces are not in equilibrium.")
+            print(f"  {name:<8} = {value}")
+
+        print("\nCALCULATION")
+        print("-" * 42)
+        print(f"  {formula}")
+        print(f"  {sub}")
+        print(f"\n  RESULT = {r:.3g} {unit}")
+        print("\n  " + (
+            "The forces are in equilibrium."
+            if r < D("0.001")
+            else "The forces are not in equilibrium."
+        ))
+        print("=" * 42)
+
     else:
         show(given | {"ΣFₓ": fx, "ΣFᵧ": fy}, formula, sub, r, unit)
 
 
 def main():
     while True:
-        print("\nPHYSICS CALCULATOR")
-        print("1. Projectile Motion I")
-        print("2. Projectile Motion II")
-        print("3. Friction")
-        print("4. Force Vectors")
-        print("5. Crane Hook / Equilibrium")
-        print("0. Exit")
+        heading("PHYSICS CALCULATOR")
 
-        c = input("Choose a topic: ")
+        print("  1. Projectile Motion I")
+        print("  2. Projectile Motion II")
+        print("  3. Friction")
+        print("  4. Force Vectors")
+        print("  5. Crane Hook / Equilibrium")
+        print("  0. Exit")
+
+        print("-" * 42)
+        c = input("  Choose a topic: ").strip()
 
         if c == "1":
             projectile_1()
@@ -246,10 +308,12 @@ def main():
         elif c in ("4", "5"):
             vectors()
         elif c == "0":
-            print("Goodbye!")
+            print("\n  Goodbye!\n")
             break
         else:
-            print("Invalid choice.")
+            print("\n  Invalid choice. Please try again.")
+
+        input("\n  Press Enter to return to the menu...")
 
 
 main()
